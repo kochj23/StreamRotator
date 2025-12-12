@@ -38,7 +38,7 @@
     // Create status item
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     self.statusItem.button.title = @"📹";
-    self.statusItem.button.toolTip = @"RTSP Rotator";
+    self.statusItem.button.toolTip = @"Stream Rotator";
 
     // Create menu
     [self buildMenu];
@@ -198,7 +198,7 @@
                           completionHandler:^(BOOL granted, NSError * _Nullable error) {
         if (granted) {
             UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
-            content.title = @"RTSP Rotator";
+            content.title = @"Stream Rotator";
             content.body = @"Snapshot saved to Downloads";
             content.sound = [UNNotificationSound defaultSound];
 

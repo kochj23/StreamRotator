@@ -445,7 +445,7 @@ static NSString * const kRetryAttemptsKey = @"RTSPRetryAttempts";
                                                               NSWindowStyleMaskClosable)
                                                       backing:NSBackingStoreBuffered
                                                         defer:NO];
-    window.title = @"RTSP Rotator Preferences";
+    window.title = @"Stream Rotator Preferences";
     [window center];
 
     self.window = window;
@@ -594,13 +594,28 @@ static NSString * const kRetryAttemptsKey = @"RTSPRetryAttempts";
     [contentView addSubview:self.unifiPasswordField];
     yPos -= 40;
 
-    // Google Home OAuth Section
-    NSTextField *googleHeaderLabel = [self createLabel:@"Google Home OAuth Credentials:" frame:NSMakeRect(leftMargin, yPos, 300, 20)];
+    // Google Home Setup Section
+    NSTextField *googleHeaderLabel = [self createLabel:@"Google Home / Nest Cameras:" frame:NSMakeRect(leftMargin, yPos, 300, 20)];
     googleHeaderLabel.font = [NSFont boldSystemFontOfSize:13];
     [contentView addSubview:googleHeaderLabel];
-    yPos -= 25;
 
-    NSTextField *googleClientIDLabel = [self createLabel:@"Client ID:" frame:NSMakeRect(leftMargin + 20, yPos, 150, 20)];
+    // Add help button for Google OAuth setup
+    NSButton *googleHelpButton = [NSButton buttonWithTitle:@"Setup Instructions" target:self action:@selector(showGoogleOAuthHelp:)];
+    googleHelpButton.frame = NSMakeRect(leftMargin + 250, yPos - 2, 150, 24);
+    googleHelpButton.bezelStyle = NSBezelStyleRounded;
+    [contentView addSubview:googleHelpButton];
+
+    yPos -= 30;
+
+    // Informational text
+    NSTextField *googleInfoLabel = [self createLabel:@"Configure your Google Cloud OAuth credentials to enable Google Home/Nest camera access." frame:NSMakeRect(leftMargin + 20, yPos, 500, 32)];
+    googleInfoLabel.textColor = [NSColor secondaryLabelColor];
+    googleInfoLabel.font = [NSFont systemFontOfSize:11];
+    [contentView addSubview:googleInfoLabel];
+    yPos -= 40;
+
+    // OAuth Client ID
+    NSTextField *googleClientIDLabel = [self createLabel:@"OAuth Client ID:" frame:NSMakeRect(leftMargin + 20, yPos, 150, 20)];
     [contentView addSubview:googleClientIDLabel];
 
     self.googleClientIDField = [self createTextField:@"" frame:NSMakeRect(leftMargin + 170, yPos, 350, 22)];
@@ -608,7 +623,8 @@ static NSString * const kRetryAttemptsKey = @"RTSPRetryAttempts";
     [contentView addSubview:self.googleClientIDField];
     yPos -= 25;
 
-    NSTextField *googleClientSecretLabel = [self createLabel:@"Client Secret:" frame:NSMakeRect(leftMargin + 20, yPos, 150, 20)];
+    // OAuth Client Secret
+    NSTextField *googleClientSecretLabel = [self createLabel:@"OAuth Client Secret:" frame:NSMakeRect(leftMargin + 20, yPos, 150, 20)];
     [contentView addSubview:googleClientSecretLabel];
 
     self.googleClientSecretField = [[NSSecureTextField alloc] initWithFrame:NSMakeRect(leftMargin + 170, yPos, 350, 22)];
@@ -616,11 +632,12 @@ static NSString * const kRetryAttemptsKey = @"RTSPRetryAttempts";
     [contentView addSubview:self.googleClientSecretField];
     yPos -= 25;
 
-    NSTextField *googleProjectIDLabel = [self createLabel:@"Project ID:" frame:NSMakeRect(leftMargin + 20, yPos, 150, 20)];
+    // Device Access Project ID
+    NSTextField *googleProjectIDLabel = [self createLabel:@"Device Access Project ID:" frame:NSMakeRect(leftMargin + 20, yPos, 150, 20)];
     [contentView addSubview:googleProjectIDLabel];
 
     self.googleProjectIDField = [self createTextField:@"" frame:NSMakeRect(leftMargin + 170, yPos, 350, 22)];
-    self.googleProjectIDField.placeholderString = @"my-sdm-project";
+    self.googleProjectIDField.placeholderString = @"12345678-abcd-1234-abcd-123456789012";
     [contentView addSubview:self.googleProjectIDField];
     yPos -= 40;
 
@@ -845,6 +862,55 @@ static NSString * const kRetryAttemptsKey = @"RTSPRetryAttempts";
 
 - (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     return YES;
+}
+
+#pragma mark - Google OAuth Help
+
+- (void)showGoogleOAuthHelp:(id)sender {
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.messageText = @"Google Home / Nest Camera Setup";
+    alert.informativeText = @"To connect Google Home/Nest cameras, you need to set up Google Cloud credentials.\n\n"
+                            @"STEP 1: Create Google Cloud Project\n"
+                            @"   • Go to: https://console.cloud.google.com\n"
+                            @"   • Click 'Select a project' > 'New Project'\n"
+                            @"   • Name it (e.g., 'Stream Rotator')\n"
+                            @"   • Click 'Create'\n\n"
+                            @"STEP 2: Enable Smart Device Management API\n"
+                            @"   • Go to 'APIs & Services' > 'Library'\n"
+                            @"   • Search: 'Smart Device Management API'\n"
+                            @"   • Click 'Enable'\n\n"
+                            @"STEP 3: Configure OAuth Consent Screen\n"
+                            @"   • Go to 'APIs & Services' > 'OAuth consent screen'\n"
+                            @"   • Choose 'External' > 'Create'\n"
+                            @"   • Fill in app name and your email\n"
+                            @"   • Click through to save\n\n"
+                            @"STEP 4: Create OAuth Credentials\n"
+                            @"   • Go to 'APIs & Services' > 'Credentials'\n"
+                            @"   • '+ CREATE CREDENTIALS' > 'OAuth client ID'\n"
+                            @"   • Application type: 'Desktop app'\n"
+                            @"   • Click 'Create'\n"
+                            @"   • Copy the Client ID and Client Secret\n\n"
+                            @"STEP 5: Register for Device Access ($5 fee)\n"
+                            @"   • Go to: https://console.nest.google.com/device-access/\n"
+                            @"   • Pay the $5 one-time registration fee\n"
+                            @"   • Create a project and copy the Project ID\n\n"
+                            @"STEP 6: Enter Credentials Above\n"
+                            @"   • Paste OAuth Client ID, Client Secret, and Project ID\n"
+                            @"   • Click 'Save'\n"
+                            @"   • Go to Google Home menu > 'Authenticate'\n"
+                            @"   • Sign in and grant permissions\n"
+                            @"   • Your cameras will be discovered automatically!\n\n"
+                            @"NOTE: This is a one-time setup. The $5 fee is required by Google.";
+    alert.alertStyle = NSAlertStyleInformational;
+    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:@"Open Google Cloud Console"];
+
+    NSModalResponse response = [alert runModal];
+
+    if (response == NSAlertSecondButtonReturn) {
+        // Open Google Cloud Console
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://console.cloud.google.com"]];
+    }
 }
 
 @end

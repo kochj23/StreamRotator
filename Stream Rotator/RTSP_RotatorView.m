@@ -124,7 +124,7 @@
 #pragma mark - Lifecycle
 
 - (void)start {
-    NSLog(@"[INFO] Starting RTSP Rotator");
+    NSLog(@"[INFO] Starting Stream Rotator");
 
     // Setup window on main thread
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -138,7 +138,7 @@
 }
 
 - (void)stop {
-    NSLog(@"[INFO] Stopping RTSP Rotator");
+    NSLog(@"[INFO] Stopping Stream Rotator");
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.rotationTimer invalidate];

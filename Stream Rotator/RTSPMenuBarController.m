@@ -80,10 +80,10 @@
 
 - (NSMenuItem *)createApplicationMenu {
     NSMenuItem *appMenuItem = [[NSMenuItem alloc] init];
-    NSMenu *appMenu = [[NSMenu alloc] initWithTitle:@"RTSP Rotator"];
+    NSMenu *appMenu = [[NSMenu alloc] initWithTitle:@"Stream Rotator"];
 
     // About
-    NSMenuItem *aboutItem = [[NSMenuItem alloc] initWithTitle:@"About RTSP Rotator"
+    NSMenuItem *aboutItem = [[NSMenuItem alloc] initWithTitle:@"About Stream Rotator"
                                                        action:@selector(orderFrontStandardAboutPanel:)
                                                 keyEquivalent:@""];
     aboutItem.target = NSApp;
@@ -110,7 +110,7 @@
     [appMenu addItem:[NSMenuItem separatorItem]];
 
     // Hide/Show
-    [appMenu addItem:[[NSMenuItem alloc] initWithTitle:@"Hide RTSP Rotator"
+    [appMenu addItem:[[NSMenuItem alloc] initWithTitle:@"Hide Stream Rotator"
                                                 action:@selector(hide:)
                                          keyEquivalent:@"h"]];
 
@@ -127,7 +127,7 @@
     [appMenu addItem:[NSMenuItem separatorItem]];
 
     // Quit
-    [appMenu addItem:[[NSMenuItem alloc] initWithTitle:@"Quit RTSP Rotator"
+    [appMenu addItem:[[NSMenuItem alloc] initWithTitle:@"Quit Stream Rotator"
                                                 action:@selector(terminate:)
                                          keyEquivalent:@"q"]];
 
@@ -203,6 +203,13 @@
     [googleHomeMenu addItem:[self menuItem:@"Test All Connections"
                                     action:@selector(testGoogleHomeCameras:)
                                        key:@""]];
+
+    // Status Window
+    [googleHomeMenu addItem:[self menuItem:@"Show Status..."
+                                    action:@selector(showGoogleHomeStatus:)
+                                       key:@""]];
+
+    [googleHomeMenu addItem:[NSMenuItem separatorItem]];
 
     // Settings
     [googleHomeMenu addItem:[self menuItem:@"Google Home Settings..."
@@ -625,7 +632,7 @@
     NSMenuItem *helpMenuItem = [[NSMenuItem alloc] init];
     NSMenu *helpMenu = [[NSMenu alloc] initWithTitle:@"Help"];
 
-    [helpMenu addItem:[self menuItem:@"RTSP Rotator Help"
+    [helpMenu addItem:[self menuItem:@"Stream Rotator Help"
                               action:@selector(showHelp:)
                                  key:@"?"]];
 
@@ -725,6 +732,10 @@
 
 - (void)testGoogleHomeCameras:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"RTSPTestGoogleHomeCameras" object:nil];
+}
+
+- (void)showGoogleHomeStatus:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"RTSPShowGoogleHomeStatus" object:nil];
 }
 
 - (void)showGoogleHomeSettings:(id)sender {

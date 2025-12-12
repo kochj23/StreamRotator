@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		D09EA6F42E99881600C69380 /* RTSP Rotator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RTSP Rotator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D09EA6F42E99881600C69380 /* Stream Rotator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stream Rotator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		D09EA6F62E99881600C69380 /* RTSP Rotator */ = {
+		D09EA6F62E99881600C69380 /* Stream Rotator */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "RTSP Rotator";
+			path = "Stream Rotator";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		D09EA6EA2E99881600C69380 = {
 			isa = PBXGroup;
 			children = (
-				D09EA6F62E99881600C69380 /* RTSP Rotator */,
+				D09EA6F62E99881600C69380 /* Stream Rotator */,
 				D09EA6F52E99881600C69380 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,7 +40,7 @@
 		D09EA6F52E99881600C69380 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D09EA6F42E99881600C69380 /* RTSP Rotator.app */,
+				D09EA6F42E99881600C69380 /* Stream Rotator.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,9 +58,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D09EA6F32E99881600C69380 /* RTSP Rotator */ = {
+		D09EA6F32E99881600C69380 /* Stream Rotator */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D09EA6FD2E99881600C69380 /* Build configuration list for PBXNativeTarget "RTSP Rotator" */;
+			buildConfigurationList = D09EA6FD2E99881600C69380 /* Build configuration list for PBXNativeTarget "Stream Rotator" */;
 			buildPhases = (
 				D09EA6EF2E99881600C69380 /* Headers */,
 				D09EA6F02E99881600C69380 /* Sources */,
@@ -72,13 +72,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				D09EA6F62E99881600C69380 /* RTSP Rotator */,
+				D09EA6F62E99881600C69380 /* Stream Rotator */,
 			);
-			name = "RTSP Rotator";
+			name = "Stream Rotator";
 			packageProductDependencies = (
 			);
-			productName = "RTSP Rotator";
-			productReference = D09EA6F42E99881600C69380 /* RTSP Rotator.app */;
+			productName = "Stream Rotator";
+			productReference = D09EA6F42E99881600C69380 /* Stream Rotator.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -98,7 +98,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D09EA6EE2E99881600C69380 /* Build configuration list for PBXProject "RTSP Rotator" */;
+			buildConfigurationList = D09EA6EE2E99881600C69380 /* Build configuration list for PBXProject "Stream Rotator" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -112,7 +112,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D09EA6F32E99881600C69380 /* RTSP Rotator */,
+				D09EA6F32E99881600C69380 /* Stream Rotator */,
 			);
 		};
 /* End PBXProject section */
@@ -272,14 +272,14 @@
 				ENABLE_RESOURCE_ACCESS_LOCATION = YES;
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "RTSP Rotator/Info.plist";
+				INFOPLIST_FILE = "Stream Rotator/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Site Rotator";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "DisneyGPT.RTSP-Rotator";
+				PRODUCT_BUNDLE_IDENTIFIER = "DisneyGPT.Stream-Rotator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
 				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
@@ -310,14 +310,14 @@
 				ENABLE_RESOURCE_ACCESS_LOCATION = YES;
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "RTSP Rotator/Info.plist";
+				INFOPLIST_FILE = "Stream Rotator/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Site Rotator";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "DisneyGPT.RTSP-Rotator";
+				PRODUCT_BUNDLE_IDENTIFIER = "DisneyGPT.Stream-Rotator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
 				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
@@ -334,7 +334,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D09EA6EE2E99881600C69380 /* Build configuration list for PBXProject "RTSP Rotator" */ = {
+		D09EA6EE2E99881600C69380 /* Build configuration list for PBXProject "Stream Rotator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D09EA6FB2E99881600C69380 /* Debug */,
@@ -343,7 +343,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D09EA6FD2E99881600C69380 /* Build configuration list for PBXNativeTarget "RTSP Rotator" */ = {
+		D09EA6FD2E99881600C69380 /* Build configuration list for PBXNativeTarget "Stream Rotator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D09EA6FE2E99881600C69380 /* Debug */,

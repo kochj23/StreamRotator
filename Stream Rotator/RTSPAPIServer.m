@@ -178,7 +178,7 @@ static void handleConnect(CFSocketRef socket, CFSocketCallBackType type, CFDataR
     // API endpoints
     if ([path isEqualToString:@"/"] || [path isEqualToString:@"/api"]) {
         return @{
-            @"name": @"RTSP Rotator API",
+            @"name": @"Stream Rotator API",
             @"version": @"1.0",
             @"endpoints": @[
                 @"/api/feeds",

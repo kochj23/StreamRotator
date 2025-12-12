@@ -104,11 +104,13 @@
             self.authentication = [[RTSPGoogleHomeAuth alloc] init];
         }
 
+        // Load credentials from user defaults
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *clientID = [defaults stringForKey:@"GoogleHome_ClientID"];
         NSString *clientSecret = [defaults stringForKey:@"GoogleHome_ClientSecret"];
         NSString *projectID = [defaults stringForKey:@"GoogleHome_ProjectID"];
 
+        // Store in authentication object
         if (clientID) self.authentication.clientID = clientID;
         if (clientSecret) self.authentication.clientSecret = clientSecret;
         if (projectID) self.authentication.projectID = projectID;
@@ -123,12 +125,31 @@
 - (void)authenticateWithCompletionHandler:(void (^)(BOOL, NSError * _Nullable))completion {
     NSLog(@"[GoogleHome] Starting authentication...");
 
-    // Check if we have OAuth client credentials configured
-    if (!self.authentication.clientID || !self.authentication.clientSecret) {
-        NSLog(@"[GoogleHome] ERROR: Missing OAuth client ID or secret");
+    // Check if we have all required OAuth credentials configured
+    if (!self.authentication.clientID || self.authentication.clientID.length == 0 ||
+        !self.authentication.clientSecret || self.authentication.clientSecret.length == 0 ||
+        !self.authentication.projectID || self.authentication.projectID.length == 0) {
+
+        NSLog(@"[GoogleHome] ERROR: Missing OAuth credentials");
+
+        NSMutableString *errorMessage = [NSMutableString stringWithString:@"Missing Google OAuth credentials.\n\n"];
+        [errorMessage appendString:@"Please configure the following in Preferences:\n"];
+
+        if (!self.authentication.clientID || self.authentication.clientID.length == 0) {
+            [errorMessage appendString:@"• OAuth Client ID\n"];
+        }
+        if (!self.authentication.clientSecret || self.authentication.clientSecret.length == 0) {
+            [errorMessage appendString:@"• OAuth Client Secret\n"];
+        }
+        if (!self.authentication.projectID || self.authentication.projectID.length == 0) {
+            [errorMessage appendString:@"• Device Access Project ID\n"];
+        }
+
+        [errorMessage appendString:@"\nClick 'Setup Instructions' in Preferences for detailed setup steps."];
+
         NSError *error = [NSError errorWithDomain:@"GoogleHomeAdapter"
                                             code:1001
-                                        userInfo:@{NSLocalizedDescriptionKey: @"Missing OAuth credentials. Please configure Google OAuth Client ID and Secret in preferences."}];
+                                        userInfo:@{NSLocalizedDescriptionKey: errorMessage}];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([self.delegate respondsToSelector:@selector(googleHomeAdapter:authenticationFailedWithError:)]) {
@@ -143,9 +164,10 @@
 
     NSString *authEndpoint = @"https://accounts.google.com/o/oauth2/v2/auth";
     NSString *scope = @"https://www.googleapis.com/auth/sdm.service";
-    NSString *redirectURI = @"urn:ietf:wg:oauth:2.0:oob"; // Manual copy-paste mode
+    // Use localhost redirect URI (modern approach - oob is deprecated)
+    NSString *redirectURI = @"http://127.0.0.1:8080/oauth2callback";
 
-    // Build OAuth URL
+    // Build OAuth URL with proper parameters for device selection
     NSString *oauthURLString = [NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=code&scope=%@&access_type=offline&prompt=consent",
                          authEndpoint,
                          [self.authentication.clientID stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]],
@@ -155,6 +177,11 @@
     NSURL *oauthURL = [NSURL URLWithString:oauthURLString];
 
     NSLog(@"[GoogleHome] Opening browser for OAuth...");
+    NSLog(@"[GoogleHome] OAuth URL: %@", oauthURLString);
+    NSLog(@"[GoogleHome] Using Client ID: %@", self.authentication.clientID);
+    NSLog(@"[GoogleHome] Using Project ID: %@", self.authentication.projectID);
+    NSLog(@"[GoogleHome] OAuth Scope: %@", scope);
+    NSLog(@"[GoogleHome] Redirect URI: %@", redirectURI);
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // Try to use ASWebAuthenticationSession, but fall back to manual if it fails
@@ -162,7 +189,7 @@
             // Use ASWebAuthenticationSession for OAuth flow
             self.authSession = [[ASWebAuthenticationSession alloc]
                 initWithURL:oauthURL
-                callbackURLScheme:@"urn:ietf:wg:oauth:2.0:oob"
+                callbackURLScheme:@"http"
                 completionHandler:^(NSURL * _Nullable callbackURL, NSError * _Nullable error) {
                     if (error) {
                         NSLog(@"[GoogleHome] OAuth session error: %@", error.localizedDescription);
@@ -280,7 +307,7 @@
                            [code stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]],
                            [self.authentication.clientID stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]],
                            [self.authentication.clientSecret stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]],
-                           [@"urn:ietf:wg:oauth:2.0:oob" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+                           [@"http://127.0.0.1:8080/oauth2callback" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
 
     request.HTTPBody = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 
@@ -427,30 +454,78 @@
     }
 
     NSLog(@"[GoogleHome] Discovering cameras...");
+    NSLog(@"[GoogleHome] Using Project ID: %@", self.authentication.projectID);
 
-    // Google Smart Device Management API endpoint
+    // First, try to list structures to see if the project has access
+    NSString *structuresEndpoint = [NSString stringWithFormat:@"https://smartdevicemanagement.googleapis.com/v1/enterprises/%@/structures",
+                                    self.authentication.projectID];
+
+    NSLog(@"[GoogleHome] Testing structures endpoint: %@", structuresEndpoint);
+
+    NSMutableURLRequest *structuresRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:structuresEndpoint]];
+    [structuresRequest setValue:[NSString stringWithFormat:@"Bearer %@", self.authentication.accessToken] forHTTPHeaderField:@"Authorization"];
+
+    // Test structures endpoint first
+    [[self.session dataTaskWithRequest:structuresRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (data) {
+            NSString *structuresResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"[GoogleHome] Structures API Response: %@", structuresResponse);
+        }
+    }] resume];
+
+    // Now proceed with devices endpoint
     NSString *endpoint = [NSString stringWithFormat:@"https://smartdevicemanagement.googleapis.com/v1/enterprises/%@/devices",
                          self.authentication.projectID];
 
+    NSLog(@"[GoogleHome] API Endpoint: %@", endpoint);
+
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:endpoint]];
     [request setValue:[NSString stringWithFormat:@"Bearer %@", self.authentication.accessToken] forHTTPHeaderField:@"Authorization"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+    NSLog(@"[GoogleHome] Access Token: %@...", [self.authentication.accessToken substringToIndex:MIN(20, self.authentication.accessToken.length)]);
 
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
-            NSLog(@"[GoogleHome] Camera discovery failed: %@", error);
+            NSLog(@"[GoogleHome] Camera discovery network error: %@", error);
             if (completion) completion(@[], error);
             return;
+        }
+
+        // Log the HTTP response for debugging
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            NSLog(@"[GoogleHome] API Response Status: %ld", (long)httpResponse.statusCode);
+        }
+
+        // Log raw response data for debugging
+        if (data) {
+            NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"[GoogleHome] API Response: %@", responseString);
         }
 
         NSError *jsonError;
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
 
         if (jsonError) {
+            NSLog(@"[GoogleHome] JSON parsing error: %@", jsonError);
             if (completion) completion(@[], jsonError);
             return;
         }
 
+        // Check for API errors in response
+        if (json[@"error"]) {
+            NSLog(@"[GoogleHome] API Error: %@", json[@"error"]);
+            NSString *errorMessage = json[@"error"][@"message"] ?: @"Unknown API error";
+            NSError *apiError = [NSError errorWithDomain:@"GoogleHomeAdapter"
+                                                   code:1006
+                                               userInfo:@{NSLocalizedDescriptionKey: errorMessage}];
+            if (completion) completion(@[], apiError);
+            return;
+        }
+
         NSArray *devices = json[@"devices"];
+        NSLog(@"[GoogleHome] Devices array from API: %@", devices);
         NSMutableArray<RTSPGoogleHomeCamera *> *cameras = [NSMutableArray array];
 
         for (NSDictionary *deviceData in devices) {

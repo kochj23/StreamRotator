@@ -41,6 +41,7 @@
 // UniFi Protect Integration
 #import "RTSPUniFiProtectAdapter.h"
 #import "RTSPGoogleHomeAdapter.h"
+#import "RTSPGoogleHomeStatusWindow.h"
 #import "RTSPStatusWindow.h"
 #import "RTSPCameraListWindow.h"
 
@@ -79,7 +80,7 @@
     RTSPStatusWindow *statusWindow = [RTSPStatusWindow sharedWindow];
     [statusWindow clearLog];
     [statusWindow show];
-    [statusWindow appendLog:@"=== RTSP Rotator Starting ===" level:@"INFO"];
+    [statusWindow appendLog:@"=== Stream Rotator Starting ===" level:@"INFO"];
     [statusWindow appendLog:@"Initializing core managers..." level:@"INFO"];
 
     // Initialize core managers
@@ -163,7 +164,7 @@
                                                 backing:NSBackingStoreBuffered
                                                   defer:NO];
 
-    self.window.title = @"RTSP Rotator";
+    self.window.title = @"Stream Rotator";
     self.window.minSize = NSMakeSize(800, 600);
     [self.window center];
 
@@ -500,6 +501,7 @@
     [nc addObserver:self selector:@selector(handleAddGoogleHomeCamera:) name:@"RTSPAddGoogleHomeCamera" object:nil];
     [nc addObserver:self selector:@selector(handleManageGoogleHomeCameras:) name:@"RTSPManageGoogleHomeCameras" object:nil];
     [nc addObserver:self selector:@selector(handleTestGoogleHomeCameras:) name:@"RTSPTestGoogleHomeCameras" object:nil];
+    [nc addObserver:self selector:@selector(handleShowGoogleHomeStatus:) name:@"RTSPShowGoogleHomeStatus" object:nil];
     [nc addObserver:self selector:@selector(handleShowGoogleHomeSettings:) name:@"RTSPShowGoogleHomeSettings" object:nil];
 
     // UniFi Protect menu
@@ -1213,6 +1215,12 @@
     [alert runModal];
 }
 
+- (void)handleShowGoogleHomeStatus:(NSNotification *)notification {
+    NSLog(@"[Menu] Show Google Home status");
+    RTSPGoogleHomeStatusWindow *statusWindow = [RTSPGoogleHomeStatusWindow sharedWindow];
+    [statusWindow show];
+}
+
 - (void)handleShowGoogleHomeSettings:(NSNotification *)notification {
     NSLog(@"[Menu] Show Google Home settings");
     [self showGoogleHomeCredentialsDialog];
@@ -1888,7 +1896,7 @@
 - (void)handleShowGettingStarted:(NSNotification *)notification {
     NSLog(@"[Menu] Show getting started");
 
-    NSString *guide = @"RTSP Rotator - Getting Started\n\n"
+    NSString *guide = @"Stream Rotator - Getting Started\n\n"
                       @"1. Add Cameras:\n"
                       @"   • UniFi Protect > Connect to Controller\n"
                       @"   • Google Home > Authenticate with Google\n"
@@ -1916,7 +1924,7 @@
 - (void)handleShowAPIDocumentation:(NSNotification *)notification {
     NSLog(@"[Menu] Show API documentation");
 
-    NSString *apiDocs = @"RTSP Rotator REST API\n\n"
+    NSString *apiDocs = @"Stream Rotator REST API\n\n"
                         @"Base URL: http://localhost:8080/api\n\n"
                         @"Endpoints:\n"
                         @"GET  /feeds - List all feeds\n"
@@ -1958,7 +1966,7 @@
 
     NSAlert *alert = [[NSAlert alloc] init];
     alert.messageText = @"Check for Updates";
-    alert.informativeText = @"You are running the latest version of RTSP Rotator.\n\nVersion: 1.0.0";
+    alert.informativeText = @"You are running the latest version of Stream Rotator.\n\nVersion: 1.0.0";
     alert.alertStyle = NSAlertStyleInformational;
     [alert addButtonWithTitle:@"OK"];
     [alert runModal];
