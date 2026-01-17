@@ -14,6 +14,7 @@
 #import "RTSPCameraTypeManager.h"
 #import "RTSPCameraDiagnostics.h"
 #import "RTSPFeedMetadata.h"
+#import "RTSPGlassmorphicBackgroundView.h"
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 // Phase 1 Features
@@ -53,6 +54,7 @@
 @property (nonatomic, strong) RTSPStatusMenuController *statusMenuController;
 @property (nonatomic, strong) RTSPMenuBarController *menuBarController;
 @property (nonatomic, strong) NSWindowController *mainWindowController;
+@property (nonatomic, strong) RTSPGlassmorphicBackgroundView *backgroundView;
 
 // Phase 1 Components
 @property (nonatomic, strong) RTSPTransitionController *transitionController;
@@ -171,10 +173,19 @@
     // Create wallpaper controller and set as content view
     self.wallpaperController = [[RTSPWallpaperController alloc] init];
 
-    // Create a container view
+    // Create a container view with glassmorphic background
     NSView *contentView = [[NSView alloc] initWithFrame:frame];
     contentView.wantsLayer = YES;
-    contentView.layer.backgroundColor = [[NSColor blackColor] CGColor];
+
+    // Add glassmorphic background view
+    self.backgroundView = [[RTSPGlassmorphicBackgroundView alloc] initWithFrame:frame];
+    self.backgroundView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    [contentView addSubview:self.backgroundView];
+
+    // Start animations after a short delay
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.backgroundView startAnimations];
+    });
 
     self.window.contentView = contentView;
 

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		BB469BCF9E2844B8AAD68174 /* RTSPGlassmorphicBackgroundView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTSPGlassmorphicBackgroundView.h; sourceTree = "<group>"; };
+		5FEA0E2FBDAD4A95A515B5F7 /* RTSPGlassmorphicBackgroundView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RTSPGlassmorphicBackgroundView.m; sourceTree = "<group>"; };
+
 		D09EA6F42E99881600C69380 /* Stream Rotator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stream Rotator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -23,7 +26,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
+				BAF49253A12648B58100C282 /* RTSPGlassmorphicBackgroundView.m in Sources */,
+);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
