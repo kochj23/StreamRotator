@@ -1,10 +1,12 @@
-# RTSP Rotator v2.2
+# Stream Rotator v2.3
 
 A macOS application that automatically rotates through multiple RTSP video feeds with advanced multi-dashboard support. Perfect for security monitoring, video wall applications, or displaying multiple camera feeds simultaneously.
 
-**✅ Latest Update (Oct 2025) - v2.2:**
-- **🆕 UniFi Protect Integration** - Automatic camera discovery and bulk import!
-- **🆕 Configuration Export/Import** - Cross-platform config management with auto-sync
+**✅ Latest Update (Jan 2026) - v2.3:**
+- **🆕 CSV Camera Import** - Bulk import cameras from CSV files!
+- **🆕 OSD Toggle** - On-screen display control for camera names and status
+- **🆕 Dashboard Designer** - Visual interface for managing dashboard layouts
+- **🆕 Dashboard Auto-Cycling** - Automatic rotation through saved dashboards
 - **15 Major Features** - Bookmarks, Transitions, Motion Detection, API Server, and more!
 - **Standard macOS Application** - Now a proper .app bundle with full app capabilities
 - **Multi-Dashboard System** - Organize up to 36+ cameras across multiple customizable dashboards
@@ -13,6 +15,52 @@ A macOS application that automatically rotates through multiple RTSP video feeds
 - **AVFoundation-Powered** - Uses Apple's native framework, no external dependencies!
 - **REST API** - Remote control via HTTP for home automation integration
 - **AI-Powered Alerts** - Smart object detection using Vision framework
+
+## What's New in v2.3.0
+
+### 🆕 CSV Camera Import
+**Bulk camera import from CSV files for rapid deployment!**
+
+- Import cameras from CSV format: `name,url,type`
+- Automatic URL validation (RTSP, HTTP, HTTPS)
+- Header row detection and skipping
+- Comment line support (lines starting with #)
+- Quoted field handling for names with commas
+- Error reporting for invalid entries
+- One-click import via File → Import Cameras from CSV
+- Creates bookmarks for all imported cameras
+
+### 🆕 On-Screen Display (OSD) Control
+**Toggle camera information overlay!**
+
+- Show/hide camera names on video feeds
+- Display timestamp and status indicators
+- Persistent preference storage via UserDefaults
+- Menu bar toggle: View → Toggle OSD
+- Visual notifications on state change
+- Per-session OSD state management
+
+### 🆕 Dashboard Designer
+**Visual dashboard management interface!**
+
+- Browse existing dashboards in dedicated window
+- View dashboard layout and camera assignments
+- Create new dashboards with one click
+- Delete, rename, and duplicate dashboards
+- Assign cameras to dashboards
+- Configure grid layouts (1x1, 2x2, 3x2, 3x3, 4x3)
+- Accessible via Dashboard → Open Dashboard Designer
+
+### 🆕 Dashboard Auto-Cycling
+**Automatic rotation through saved dashboards!**
+
+- Enable/disable auto-cycling via menu
+- Configurable cycle interval (default: 30 seconds)
+- Cycles through all saved dashboards sequentially
+- Smooth transitions between dashboards
+- Persistent state across app restarts
+- Visual notifications on cycle events
+- Requires 2+ dashboards to activate
 
 ## What's New in v2.2.0
 
