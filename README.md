@@ -1,227 +1,294 @@
-# Stream Rotator v2.3
+# Stream Rotator v2.3.0
 
-A macOS application that automatically rotates through multiple RTSP video feeds with advanced multi-dashboard support. Perfect for security monitoring, video wall applications, or displaying multiple camera feeds simultaneously.
+**A macOS application for automatic RTSP video feed rotation with multi-dashboard support**
 
-**✅ Latest Update (Jan 2026) - v2.3:**
-- **🆕 CSV Camera Import** - Bulk import cameras from CSV files!
-- **🆕 OSD Toggle** - On-screen display control for camera names and status
-- **🆕 Dashboard Designer** - Visual interface for managing dashboard layouts
-- **🆕 Dashboard Auto-Cycling** - Automatic rotation through saved dashboards
-- **15 Major Features** - Bookmarks, Transitions, Motion Detection, API Server, and more!
-- **Standard macOS Application** - Now a proper .app bundle with full app capabilities
-- **Multi-Dashboard System** - Organize up to 36+ cameras across multiple customizable dashboards
-- **Google Home Integration** - Native support for Google Home/Nest cameras
-- **Camera Diagnostics** - Real-time health monitoring with visual status indicators
-- **AVFoundation-Powered** - Uses Apple's native framework, no external dependencies!
-- **REST API** - Remote control via HTTP for home automation integration
-- **AI-Powered Alerts** - Smart object detection using Vision framework
+Perfect for security monitoring, video wall applications, or displaying multiple camera feeds simultaneously with enterprise-grade features.
 
-## What's New in v2.3.0
+---
 
-### 🆕 CSV Camera Import
-**Bulk camera import from CSV files for rapid deployment!**
+## What is Stream Rotator?
 
-- Import cameras from CSV format: `name,url,type`
-- Automatic URL validation (RTSP, HTTP, HTTPS)
-- Header row detection and skipping
-- Comment line support (lines starting with #)
-- Quoted field handling for names with commas
-- Error reporting for invalid entries
-- One-click import via File → Import Cameras from CSV
-- Creates bookmarks for all imported cameras
+Stream Rotator is a professional macOS application that displays and automatically rotates through multiple RTSP camera feeds. Whether you're monitoring a home security system, managing a business surveillance network, or building a video wall display, Stream Rotator provides powerful features in a native macOS application.
 
-### 🆕 On-Screen Display (OSD) Control
-**Toggle camera information overlay!**
+**Key Use Cases:**
+- **Home Security**: Monitor all cameras with automatic rotation
+- **Business Surveillance**: Display feeds across multiple dashboards
+- **Video Walls**: Grid layouts supporting up to 12 simultaneous cameras
+- **NOC/SOC Displays**: Auto-cycling dashboards for 36+ cameras
+- **Smart Home Integration**: REST API for home automation systems
 
-- Show/hide camera names on video feeds
-- Display timestamp and status indicators
-- Persistent preference storage via UserDefaults
-- Menu bar toggle: View → Toggle OSD
-- Visual notifications on state change
-- Per-session OSD state management
-
-### 🆕 Dashboard Designer
-**Visual dashboard management interface!**
-
-- Browse existing dashboards in dedicated window
-- View dashboard layout and camera assignments
-- Create new dashboards with one click
-- Delete, rename, and duplicate dashboards
-- Assign cameras to dashboards
-- Configure grid layouts (1x1, 2x2, 3x2, 3x3, 4x3)
-- Accessible via Dashboard → Open Dashboard Designer
-
-### 🆕 Dashboard Auto-Cycling
-**Automatic rotation through saved dashboards!**
-
-- Enable/disable auto-cycling via menu
-- Configurable cycle interval (default: 30 seconds)
-- Cycles through all saved dashboards sequentially
-- Smooth transitions between dashboards
-- Persistent state across app restarts
-- Visual notifications on cycle events
-- Requires 2+ dashboards to activate
-
-## What's New in v2.2.0
-
-### 🆕 UniFi Protect Integration
-**Automatic camera discovery and import for UniFi Protect ecosystems!**
-
-15. **UniFi Protect Adapter** - Seamless integration with UniFi cameras
-    - Automatic camera discovery via UniFi Protect controller
-    - Bulk import of all cameras with one click
-    - Real-time connection status monitoring
-    - Secure authentication (HTTPS/HTTP with self-signed cert support)
-    - Optimized RTSP URL generation
-    - Health testing before import
-    - **📖 See [DOCS/UNIFI_PROTECT.md](DOCS/UNIFI_PROTECT.md) for complete documentation**
-
-### 🔄 Configuration Export/Import System (v2.1.1)
-**Cross-platform configuration management for multi-device deployments!**
-
-14. **Configuration Export/Import** - Export all settings to JSON format
-    - Export to local file or upload to remote URL
-    - Import from file or download from URL
-    - Auto-sync between devices (macOS, iOS, tvOS, screensaver)
-    - Merge or replace modes
-    - Centralized configuration management
-    - **📖 See [CONFIGURATION_EXPORT.md](CONFIGURATION_EXPORT.md) for documentation**
-
-### 🚀 13 Major Features from v2.1
-
-**Phase 1 - Quick Wins:**
-1. **Feed Bookmarks** - ⌘1-9 keyboard shortcuts for instant camera access
-2. **Custom Transitions** - 11 transition effects (fade, slide, zoom, etc.)
-3. **Full-Screen Mode** - Overlay controls with auto-hide
-4. **Audio Monitoring** - Real-time audio level meters with alerts
-5. **Motion Detection** - AI-powered motion detection with confidence scoring
-
-**Phase 2 - High-Impact Features:**
-6. **Picture-in-Picture** - Floating window for monitoring critical cameras
-7. **Thumbnail Grid** - Live preview grid of all cameras
-8. **PTZ Control** - Full pan/tilt/zoom control for compatible cameras
-9. **REST API Server** - HTTP API for home automation integration
-10. **Feed Failover** - Automatic backup feed switching
-
-**Phase 3 - Advanced Features:**
-11. **Smart Alerts** - Vision framework object detection (people, vehicles, animals)
-12. **Cloud Storage** - Auto-upload to iCloud, Dropbox, Google Drive, or S3
-13. **Event Timeline** - Comprehensive event logging with CSV/PDF export
-
-**📖 See [NEW_FEATURES_V2.1.md](NEW_FEATURES_V2.1.md) for v2.1 feature documentation**
+---
 
 ## Features
 
-### Core Features
-- **Standard macOS Application**: Proper app bundle with Dock integration, menu bar, and window management
-- **Multi-Dashboard Support**: Create unlimited dashboards, each supporting up to 12 cameras simultaneously
+### Core Functionality
 - **Automatic Feed Rotation**: Cycles through multiple RTSP streams at configurable intervals
+- **Multi-Dashboard System**: Create unlimited dashboards, each supporting up to 12 cameras simultaneously
 - **Grid Layouts**: View 1, 4, 6, 9, or 12 cameras simultaneously (1×1, 2×2, 3×2, 3×3, 4×3)
 - **AVFoundation-Powered**: Uses Apple's native framework for robust RTSP stream handling
 - **Zero External Dependencies**: No need to install VLCKit or other frameworks
-- **Configuration UI**: Full preferences window with comprehensive camera management
+- **Standard macOS Application**: Proper .app bundle with Dock integration, menu bar, window management
 - **Persistent Storage**: All configuration saved automatically
 - **Audio Control**: Individual camera mute control
 
 ### Camera Management
-- **RTSP Camera Support**: Full support for standard RTSP cameras with detailed configuration
-- **Google Home/Nest Integration**: Native support for Google Home cameras via SDM API
-- **UniFi Protect Integration**: Automatic camera discovery and import for UniFi ecosystems
+- **RTSP Camera Support**: Full support for standard RTSP cameras with authentication
+- **Google Home/Nest Integration**: Native support via Smart Device Management API
+- **UniFi Protect Integration**: Automatic camera discovery and bulk import
+- **CSV Camera Import (v2.3.0)**: Bulk import from CSV files with validation
 - **Camera Type Separation**: Separate management for different camera types
-- **Comprehensive Diagnostics**: Connection tests, stream analysis, health monitoring
-- **Status Indicators**: Color-coded status lights (Green/Yellow/Red/Blue/Gray)
-- **Feed Metadata**: Custom display names, categories, health tracking, statistics
+- **Feed Bookmarks**: ⌘1-9 keyboard shortcuts for instant camera access
+- **Feed Testing**: Test connectivity before adding feeds
+- **Camera Diagnostics**: Real-time health monitoring with visual status indicators
+
+### Dashboard Features
+- **Dashboard Designer (v2.3.0)**: Visual interface for managing dashboards
+  - Browse existing dashboards in dedicated window
+  - View layout and camera assignments
+  - Create, delete, rename, duplicate dashboards
+  - Configure grid layouts (1×1 through 4×3)
+  - Access via Dashboard → Open Dashboard Designer
+- **Dashboard Auto-Cycling (v2.3.0)**: Automatic rotation through saved dashboards
+  - Configurable cycle interval (default: 30 seconds)
+  - Sequential cycling through all dashboards
+  - Smooth transitions between views
+  - Persistent state across app restarts
+  - Perfect for monitoring 36+ cameras
+- **Dashboard Layouts**: 1×1, 2×2, 3×2, 3×3, 4×3 (up to 12 cameras per dashboard)
+- **Unlimited Dashboards**: Organize cameras by location, priority, or function
+
+### Display & Visual Features
+- **On-Screen Display (OSD) (v2.3.0)**: Toggle camera names and status overlays
+  - Show/hide camera names on video feeds
+  - Display timestamps and status indicators
+  - Menu bar toggle: View → Toggle OSD
+  - Persistent preferences via UserDefaults
+- **Custom Transitions**: 11 transition effects (fade, slide, zoom, etc.)
+- **Full-Screen Mode**: Overlay controls with auto-hide
+- **Picture-in-Picture**: Floating window for monitoring critical cameras
+- **Thumbnail Grid**: Live preview grid of all cameras
+- **Status Indicators**: Color-coded health (🟢Green/🟡Yellow/🔴Red/🔵Blue/⚪Gray)
 
 ### Advanced Features
-- **On-Screen Display (OSD)**: Visual feedback for feed changes and diagnostics
+- **REST API Server**: HTTP API for home automation integration
+- **PTZ Control**: Full pan/tilt/zoom control for compatible cameras
+- **Motion Detection**: AI-powered motion detection with confidence scoring
+- **Smart Alerts**: Vision framework object detection (people, vehicles, animals)
+- **Audio Monitoring**: Real-time audio level meters with alerts
 - **Recording & Snapshots**: Capture screenshots or record video from streams
+- **Event Timeline**: Comprehensive event logging with CSV/PDF export
+- **Cloud Storage**: Auto-upload to iCloud, Dropbox, Google Drive, or S3
+- **Feed Failover**: Automatic backup feed switching
+- **Configuration Export/Import**: JSON format for cross-platform deployment
 - **Status Menu Bar**: Quick access to controls and dashboard switching
 - **Global Keyboard Shortcuts**: System-wide hotkeys for common actions
-- **Import/Export**: Bulk camera import with CSV support
-- **Feed Testing**: Test connectivity before adding feeds
 - **Multi-Monitor Support**: Display on specific monitors
-- **Health Tracking**: Monitor feed uptime, connection quality, framerate, bitrate
-- **Automatic Health Monitoring**: Periodic health checks with alerts
-- **Dashboard Auto-Cycling**: Automatically rotate between dashboards
+- **Health Tracking**: Monitor uptime, connection quality, framerate, bitrate
+
+---
+
+## What's New in v2.3.0 (January 2026)
+
+### 🆕 CSV Camera Import
+**Bulk camera import for rapid deployment:**
+
+```csv
+# Example format
+name,url
+Living Room,rtsp://192.168.1.100:554/stream
+Front Door,rtsp://admin:pass@192.168.1.101/main
+"Garage (Main)",rtsp://192.168.1.102:554/stream1
+```
+
+- Automatic URL validation (RTSP, HTTP, HTTPS)
+- Header row detection and skipping
+- Comment line support (# prefix)
+- Quoted field handling for names with commas
+- Error reporting with line numbers
+- Creates bookmarks for all imported cameras
+- Access: File → Import Cameras from CSV
+
+### 🆕 On-Screen Display (OSD) Control
+**Toggle camera information overlay:**
+
+- Show/hide camera names on video feeds
+- Display timestamps and status indicators
+- Persistent state across sessions
+- Toggle via View → Toggle OSD
+- Visual notifications on state change
+
+### 🆕 Dashboard Designer
+**Visual dashboard management:**
+
+- Dedicated window showing all dashboards
+- View layouts and camera assignments
+- Create/delete/rename/duplicate dashboards
+- Configure grid layouts visually
+- One-click dashboard creation
+- Access: Dashboard → Open Dashboard Designer
+
+### 🆕 Dashboard Auto-Cycling
+**Automatic dashboard rotation:**
+
+- Enable/disable via menu toggle
+- Configurable interval (default: 30s, customizable)
+- Cycles through all saved dashboards sequentially
+- Smooth transitions
+- Persistent state
+- Requires 2+ dashboards
+- Perfect for 36+ camera monitoring
+
+---
+
+## Security
+
+### Security Features
+- **RTSP Authentication**: Username/password support for camera access
+- **OAuth 2.0**: Secure Google Home authentication
+- **Local Network**: No external routing by default
+- **Credential Storage**: Stored in NSUserDefaults (Keychain recommended for production)
+- **HTTPS Support**: rtsps:// for encrypted RTSP streams
+- **Token Management**: Google OAuth tokens managed securely
+
+### Privacy
+- **No Telemetry**: No data sent to external services
+- **Local Processing**: All video processing on-device
+- **No Cloud Storage**: (unless explicitly configured by user)
+- **Audit Logging**: All events logged locally only
+
+### Best Practices
+- Use authentication on all RTSP cameras
+- Change default camera passwords
+- Use VLANs to isolate camera network
+- Enable rtsps:// for encrypted streams when available
+- Regularly update firmware on cameras
+- Consider Keychain for credential storage in production
+
+---
 
 ## Requirements
 
-- macOS 10.15 (Catalina) or later recommended
-- macOS 11.0 (Big Sur) or later for modern UserNotifications
-- Xcode 14.0 or later (for building)
-- **No external dependencies!** AVFoundation is built into macOS
+### System Requirements
+- **macOS 10.15 (Catalina) or later** (11.0+ recommended for modern features)
+- **Architecture**: Universal (Apple Silicon and Intel)
+- **Xcode 14.0+** (for building from source)
+
+### Network Requirements
+- **Bandwidth**: 2-8 Mbps per camera
+- **12 cameras @ 720p**: ~50-80 Mbps
+- **Wired Gigabit Ethernet**: Strongly recommended for 12+ cameras
+- **Port 554**: RTSP default port (must be accessible)
+
+### Dependencies
+**None!** Stream Rotator uses only built-in macOS frameworks:
+- AVFoundation (video playback)
+- AppKit (UI)
+- Foundation (core functionality)
+
+---
 
 ## Installation
 
-### Quick Start
+### Option 1: Pre-built Binary (Recommended)
 
-1. **Clone or download** the project
-
-2. **Open the project:**
+1. **Download DMG:**
    ```bash
-   cd "/Users/kochj/Desktop/xcode/RTSP Rotator"
-   open "RTSP Rotator.xcodeproj"
+   # From binaries folder
+   open "/Volumes/Data/xcode/binaries/20260127-StreamRotator-v2.3.0/StreamRotator-v2.3.0-build230.dmg"
    ```
 
-3. **Build in Xcode:**
-   - Select the "RTSP Rotator" scheme
-   - Product > Build (⌘B)
-   - Product > Run (⌘R)
+2. **Install:**
+   - Drag Stream Rotator.app to Applications folder
+   - Double-click to launch
 
-4. **The application will:**
-   - Launch as a standard macOS app
-   - Show main window with video display
-   - Display status menu icon for quick access
-   - Open preferences if no cameras are configured
+### Option 2: Build from Source
 
-**That's it!** No external frameworks to install.
+1. **Clone repository:**
+   ```bash
+   git clone https://github.com/kochj23/StreamRotator.git
+   cd StreamRotator
+   ```
+
+2. **Open in Xcode:**
+   ```bash
+   open "Stream Rotator.xcodeproj"
+   ```
+
+3. **Build:**
+   - Select "Stream Rotator" scheme
+   - Product → Build (⌘B)
+   - Product → Run (⌘R)
+
+4. **Archive for Distribution:**
+   ```bash
+   xcodebuild archive -project "Stream Rotator.xcodeproj" -scheme "Stream Rotator" -configuration Release -archivePath "/tmp/StreamRotator.xcarchive"
+   ```
+
+---
 
 ## Configuration
 
-### Multi-Dashboard Setup
+### First Launch Setup
 
-The application supports organizing cameras into multiple dashboards:
+1. **Add Your First Camera:**
+   - File → Add Camera (or ⌘N)
+   - Enter camera name
+   - Enter RTSP URL: `rtsp://user:pass@192.168.1.100:554/stream`
+   - Click Add
 
-1. **Open Preferences** from the status menu or application menu
-2. **Create Dashboards:**
-   - Click "Add Dashboard"
-   - Name it (e.g., "External Cameras", "Internal Cameras")
-   - Select layout (1×1, 2×2, 3×2, 3×3, 4×3)
-   - Configure display options
+2. **Or Import from CSV:**
+   - File → Import Cameras from CSV
+   - Select your CSV file (format: `name,url`)
+   - Review import summary
 
-3. **Add Cameras:**
-   - Choose camera type (RTSP or Google Home)
-   - Enter camera details
-   - Assign to dashboard
-   - Enable/disable as needed
+3. **Create Dashboard:**
+   - Dashboard → Create New Dashboard
+   - Name it (e.g., "Main Cameras")
+   - Select layout (e.g., 2×2 for 4 cameras)
+   - Assign cameras to dashboard
 
-### RTSP Camera Configuration
-
-RTSP cameras support detailed configuration:
+### RTSP URL Format
 
 ```
-URL Format: rtsp://[username:password@]host[:port]/path
+rtsp://[username:password@]host[:port]/path
 
-Required:
+Examples:
+rtsp://192.168.1.100:554/stream1
+rtsp://admin:password@camera.local:554/live
+rtsps://secure-camera.example.com/camera/stream
+```
+
+### Camera Configuration Options
+
+**Required:**
 - Name/Label
 - RTSP URL
 - Port (default: 554)
 
-Optional:
-- Username/Password
+**Optional:**
+- Username/Password (for authenticated cameras)
 - Stream Path
 - TLS/SSL (rtsps://)
 - Preferred Framerate
 - PTZ Control Support
 - Audio Settings
+- Health Check Interval
+
+### Dashboard Configuration
+
+**Create Multiple Dashboards:**
+```
+Dashboard 1: "Exterior Cameras" (12 outdoor cameras, 4×3 grid)
+Dashboard 2: "Interior Cameras" (9 indoor cameras, 3×3 grid)
+Dashboard 3: "Critical Areas" (4 priority cameras, 2×2 grid)
 ```
 
-Examples:
-- `rtsp://192.168.1.100:554/stream1`
-- `rtsp://admin:password@camera.local:554/live`
-- `rtsps://secure-camera.example.com/camera/stream`
+**Auto-Cycling Setup:**
+1. Dashboard → Toggle Dashboard Auto-Cycle
+2. Dashboard → Set Cycle Interval (e.g., 30 seconds)
+3. Dashboards will rotate automatically
 
-### Google Home Camera Setup
+### Google Home Setup
 
 1. **Prerequisites:**
    - Google Home/Nest camera
@@ -229,347 +296,346 @@ Examples:
    - OAuth 2.0 credentials
 
 2. **Authentication:**
-   - Open Preferences > Google Home
-   - Click "Authenticate"
+   - Preferences → Google Home → Authenticate
    - Sign in with Google account
-   - Grant permissions
+   - Grant camera permissions
 
 3. **Import Cameras:**
    - Click "Discover Cameras"
    - Select cameras to import
    - Assign to dashboards
-   - Configure refresh intervals
 
-**Note:** Google Home streams expire after 5 minutes and auto-refresh.
-
-### Dashboard Layouts
-
-Each dashboard supports different grid layouts:
-
-- **1×1**: Single camera, full screen
-- **2×2**: 4 cameras in a grid
-- **3×2**: 6 cameras (3 columns × 2 rows)
-- **3×3**: 9 cameras in a grid
-- **4×3**: 12 cameras (4 columns × 3 rows)
+---
 
 ## Usage
 
-### Running the Application
+### Basic Operation
 
-1. **Launch** from Xcode or built .app bundle
-2. **Main Window** appears showing selected dashboard
-3. **Status Menu** provides quick access to:
-   - Dashboard switching
-   - Preferences
-   - Diagnostics
-   - Quit
+**Launch Application:**
+```bash
+open ~/Applications/Stream\ Rotator.app
+```
+
+**Status Menu:** Click menu bar icon for:
+- Quick dashboard switching
+- Camera controls
+- Preferences
+- Diagnostics
+- Quit
+
+**Keyboard Shortcuts:**
+- **⌘1-9**: Switch to bookmarked camera
+- **⌘F**: Toggle full screen
+- **⌘,**: Open preferences
+- **⌘Q**: Quit application
+- **Return/Enter**: Toggle audio mute
 
 ### Dashboard Management
 
-**Switching Dashboards:**
-- Click status menu > Select dashboard
+**Switch Dashboards:**
+- Status menu → Select dashboard
 - Use keyboard shortcuts (configurable)
-- Enable auto-cycling for automatic rotation
+- Auto-cycling (if enabled)
 
-**Dashboard Auto-Cycling:**
-- Enable in dashboard settings
-- Set cycle interval (e.g., every 60 seconds)
-- Perfect for rotating through 36+ cameras
+**Edit Dashboard:**
+- Dashboard → Open Dashboard Designer
+- View all dashboards and layouts
+- Create/modify/delete dashboards
 
-### Camera Diagnostics
+### Camera Operations
 
-**Run Diagnostics:**
-1. Open Preferences > Diagnostics
-2. Click "Test All Cameras" or test individual cameras
-3. View detailed reports:
-   - Connection status and time
-   - Stream details (resolution, framerate, bitrate)
-   - Network metrics (latency, packet loss)
-   - Warnings and errors
+**Test Camera:**
+- Select camera in preferences
+- Click "Test Camera"
+- Review diagnostic report
+
+**Adjust Settings:**
+- Right-click camera in grid
+- Adjust audio, quality, refresh rate
+- Enable/disable individual cameras
+
+### Diagnostics
+
+**Run Health Check:**
+1. Preferences → Diagnostics
+2. "Test All Cameras" or select specific camera
+3. Review connection status, stream details, network metrics
+
+**Automatic Monitoring:**
+- Enable in Diagnostics preferences
+- Set interval (default: 60 seconds)
+- Receive notifications for issues
 
 **Status Indicators:**
-- 🟢 **Green**: Healthy (all good)
-- 🟡 **Yellow**: Warning (minor issues)
-- 🔴 **Red**: Critical (not working)
-- 🔵 **Blue**: Testing in progress
-- ⚪ **Gray**: Unknown (not yet tested)
+- 🟢 Green: Healthy
+- 🟡 Yellow: Warning (minor issues)
+- 🔴 Red: Critical (not working)
+- 🔵 Blue: Testing in progress
+- ⚪ Gray: Unknown
 
-**Automatic Health Monitoring:**
-- Enable in Preferences > Diagnostics
-- Set check interval (default: 60 seconds)
-- Get notifications for unhealthy cameras
+---
 
-### Keyboard Controls
+## REST API
 
-- **Return/Enter**: Toggle audio mute
-- **Cmd+,**: Open preferences
-- **Cmd+Q**: Quit application
-- **Cmd+F**: Toggle full screen
+Stream Rotator includes a built-in REST API for home automation integration.
 
-Custom global shortcuts can be configured in Preferences.
+**Endpoints:**
+- `GET /feeds` - List all cameras
+- `GET /current` - Get current camera index
+- `POST /switch/{index}` - Switch to specific camera
+- `POST /next` - Switch to next camera
+- `POST /previous` - Switch to previous camera
+- `POST /snapshot` - Capture current frame
+- `POST /recording/start` - Start recording
+- `POST /recording/stop` - Stop recording
+- `GET /recording/status` - Get recording status
+- `POST /interval` - Set rotation interval
 
-## Architecture
+**Example:**
+```bash
+# Get all feeds
+curl http://localhost:8080/feeds
 
-### Application Structure
+# Switch to camera 2
+curl -X POST http://localhost:8080/switch/2
 
-```
-RTSP Rotator.app
-├── AppDelegate
-│   ├── Application lifecycle management
-│   ├── Window creation and management
-│   ├── Manager initialization
-│   └── Status menu setup
-│
-├── RTSPWallpaperController
-│   ├── Video playback management
-│   ├── Feed rotation logic
-│   ├── AVPlayer/AVPlayerLayer integration
-│   └── Dual-mode operation (standalone/integrated)
-│
-├── RTSPDashboardManager
-│   ├── Multi-dashboard management
-│   ├── Dashboard persistence (NSCoding)
-│   ├── Auto-cycling support
-│   └── Camera assignment
-│
-├── RTSPCameraTypeManager
-│   ├── RTSP camera management
-│   ├── Google Home camera management
-│   ├── Type-specific configuration
-│   └── Connection testing
-│
-├── RTSPCameraDiagnostics
-│   ├── Comprehensive health checks
-│   ├── Stream analysis (resolution, framerate, bitrate)
-│   ├── Network diagnostics (latency, packet loss)
-│   ├── Automatic monitoring
-│   └── Report generation
-│
-├── RTSPMultiViewGrid
-│   ├── Grid layout management
-│   ├── Camera cell rendering
-│   ├── Synchronized playback
-│   └── Status indicator display
-│
-├── RTSPGoogleHomeAdapter
-│   ├── OAuth 2.0 authentication
-│   ├── Smart Device Management API
-│   ├── Camera discovery
-│   └── Stream URL generation
-│
-├── RTSPConfigurationManager
-│   ├── Persistent storage
-│   ├── Feed metadata management
-│   └── Settings management
-│
-├── RTSPPreferencesController
-│   ├── Preferences window UI
-│   ├── Camera management interface
-│   └── Settings configuration
-│
-├── RTSPStatusMenuController
-│   ├── Menu bar integration
-│   ├── Dashboard switching
-│   └── Quick actions
-│
-└── Additional Components
-    ├── RTSPRecorder (snapshots/recording)
-    ├── RTSPOSDView (on-screen display)
-    ├── RTSPGlobalShortcuts (keyboard shortcuts)
-    ├── RTSPMotionDetector (motion detection)
-    ├── RTSPNetworkMonitor (network monitoring)
-    └── More...
+# Take snapshot
+curl -X POST http://localhost:8080/snapshot
 ```
 
-### Code Structure
-
-```
-RTSP Rotator/
-├── RTSP Rotator/
-│   ├── AppDelegate.h/m              # Application delegate
-│   ├── main.m                       # Application entry point
-│   ├── Info.plist                   # Application metadata
-│   │
-│   ├── Core Controllers
-│   ├── RTSP_RotatorView.m          # RTSPWallpaperController implementation
-│   ├── RTSPWallpaperController.h   # Main video controller
-│   │
-│   ├── Multi-Dashboard System
-│   ├── RTSPDashboardManager.h/m    # Dashboard management
-│   ├── RTSPMultiViewGrid.h/m       # Grid view display
-│   │
-│   ├── Camera Management
-│   ├── RTSPCameraTypeManager.h/m   # Camera type manager
-│   ├── RTSPCameraDiagnostics.h/m   # Health monitoring
-│   ├── RTSPGoogleHomeAdapter.h/m   # Google Home integration
-│   │
-│   ├── UI Components
-│   ├── RTSPPreferencesController.h/m
-│   ├── RTSPStatusMenuController.h/m
-│   ├── RTSPOSDView.h/m
-│   │
-│   └── ... (40+ additional components)
-│
-├── Documentation/
-│   ├── README.md                    # This file
-│   ├── REFACTORING_SUMMARY.md      # App refactoring details
-│   ├── MULTI_DASHBOARD_GUIDE.md    # Multi-dashboard usage
-│   ├── API.md                       # API documentation
-│   ├── FEATURES_V2.md              # Feature list
-│   └── ... (additional docs)
-│
-└── RTSP Rotator.xcodeproj/         # Xcode project
-```
+---
 
 ## Troubleshooting
 
 ### Common Issues
 
-**Problem**: Application won't launch
-- **Solution**: Check Console.app for error messages
-- **Solution**: Verify Info.plist is properly configured
-- **Solution**: Ensure code signing is set up correctly
+**Application won't launch:**
+- Check Console.app for error messages
+- Verify Info.plist configuration
+- Ensure code signing is correct
 
-**Problem**: Feeds won't play
-- **Solution**: Check RTSP URL format and network connectivity
-- **Solution**: Verify camera/server is accessible
-- **Solution**: Check firewall settings for port 554
-- **Solution**: Run diagnostics to identify specific issues
+**Feeds won't play:**
+- Verify RTSP URL format
+- Check network connectivity to camera
+- Verify firewall allows port 554
+- Run diagnostics to identify issues
+- Test URL in VLC to confirm it works
 
-**Problem**: Google Home cameras fail to connect
-- **Solution**: Verify OAuth credentials are valid
-- **Solution**: Check Smart Device Management API is enabled
-- **Solution**: Ensure camera permissions are granted
-- **Solution**: Try refreshing the stream URL
+**Google Home cameras fail:**
+- Verify OAuth credentials
+- Check Smart Device Management API is enabled
+- Ensure camera permissions granted
+- Try refreshing stream URL
 
-**Problem**: High CPU/memory usage with many cameras
-- **Solution**: Use dashboard auto-cycling instead of viewing all cameras
-- **Solution**: Reduce camera resolution at source
-- **Solution**: Limit active cameras to 12 or fewer
-- **Solution**: Use 720p instead of 1080p for grid views
+**High CPU/memory usage:**
+- Use dashboard auto-cycling instead of viewing all cameras
+- Reduce camera resolution at source
+- Limit active cameras to 12 or fewer
+- Use 720p instead of 1080p for grid views
 
-**Problem**: Status indicators not updating
-- **Solution**: Enable automatic health monitoring
-- **Solution**: Manually run diagnostics
-- **Solution**: Check that cameras are enabled
+**Status indicators not updating:**
+- Enable automatic health monitoring
+- Manually run diagnostics
+- Check cameras are enabled
 
 ### Performance Optimization
 
 **For 36+ Cameras:**
 1. Create 3+ dashboards with 12 cameras each
-2. Enable dashboard auto-cycling
+2. Enable dashboard auto-cycling (30-60 second intervals)
 3. Use 720p streams for grid layouts
 4. Use gigabit Ethernet connection
-5. Monitor system resources
+5. Monitor Activity Monitor for resource usage
 
 **Network Requirements:**
-- Bandwidth: ~2-8 Mbps per camera
-- 12 cameras @ 720p ≈ 50-80 Mbps
+- Single camera: 2-8 Mbps
+- 12 cameras @ 720p: 50-80 Mbps total
 - Wired connection strongly recommended
+
+---
+
+## Architecture
+
+### Application Components
+
+```
+Stream Rotator/
+├── AppDelegate                  # Application lifecycle, manager initialization
+├── RTSPWallpaperController     # Video playback, feed rotation, AVPlayer integration
+├── RTSPDashboardManager        # Multi-dashboard management, persistence, auto-cycling
+├── RTSPCameraTypeManager       # RTSP & Google Home camera management
+├── RTSPCameraDiagnostics       # Health checks, stream analysis, monitoring
+├── RTSPMultiViewGrid           # Grid layout, synchronized playback
+├── RTSPGoogleHomeAdapter       # OAuth 2.0, SDM API, camera discovery
+├── RTSPConfigurationManager    # Persistent storage, settings
+├── RTSPPreferencesController   # Preferences UI
+├── RTSPStatusMenuController    # Menu bar integration
+├── RTSPAPIServer               # REST API server
+├── RTSPRecorder                # Snapshots and recording
+├── RTSPOSDView                 # On-screen display
+├── RTSPGlobalShortcuts         # Keyboard shortcuts
+├── RTSPMotionDetector          # Motion detection
+└── RTSPNetworkMonitor          # Network monitoring
+```
+
+### Technology Stack
+- **Language**: Objective-C
+- **UI Framework**: AppKit
+- **Media Framework**: AVFoundation (AVPlayer, AVPlayerLayer)
+- **Storage**: NSUserDefaults, NSCoding
+- **Networking**: NSURLSession
+- **API**: GCDWebServer for REST endpoints
+
+---
 
 ## Development
 
 ### Building from Source
 
 ```bash
-cd "/Users/kochj/Desktop/xcode/RTSP Rotator"
-xcodebuild -project "RTSP Rotator.xcodeproj" -scheme "RTSP Rotator" build
+cd "/Volumes/Data/xcode/Stream Rotator"
+xcodebuild clean build -project "Stream Rotator.xcodeproj" -scheme "Stream Rotator" -configuration Release
 ```
 
 ### Running Tests
 
 ```bash
-xcodebuild test -scheme "RTSP Rotator" -destination "platform=macOS"
+xcodebuild test -scheme "Stream Rotator" -destination "platform=macOS"
 ```
 
-### Adding New Features
+### Project Structure
 
-The application uses a modular architecture. To add features:
+```
+Stream Rotator/
+├── Stream Rotator/
+│   ├── AppDelegate.h/m              # Application delegate
+│   ├── main.m                       # Entry point
+│   ├── Info.plist                   # App metadata
+│   │
+│   ├── Core Controllers/
+│   ├── RTSP_RotatorView.m          # RTSPWallpaperController implementation
+│   ├── RTSPWallpaperController.h   # Main video controller
+│   │
+│   ├── Dashboard System/
+│   ├── RTSPDashboardManager.h/m    # Dashboard management
+│   ├── RTSPMultiViewGrid.h/m       # Grid display
+│   │
+│   ├── Camera Management/
+│   ├── RTSPCameraTypeManager.h/m   # Camera types
+│   ├── RTSPCameraDiagnostics.h/m   # Health monitoring
+│   ├── RTSPGoogleHomeAdapter.h/m   # Google integration
+│   │
+│   ├── UI Components/
+│   ├── RTSPPreferencesController.h/m
+│   ├── RTSPStatusMenuController.h/m
+│   ├── RTSPOSDView.h/m
+│   │
+│   ├── API/
+│   ├── RTSPAPIServer.h/m           # REST API
+│   │
+│   └── Utilities/
+│       ├── RTSPRecorder.h/m
+│       ├── RTSPMotionDetector.h/m
+│       ├── RTSPNetworkMonitor.h/m
+│       └── ... (40+ additional components)
+│
+└── Documentation/
+    ├── README.md
+    ├── API.md
+    ├── MULTI_DASHBOARD_GUIDE.md
+    ├── CONFIGURATION_EXPORT.md
+    └── NEW_FEATURES_V2.1.md
+```
 
-1. **New Camera Type**: Extend RTSPCameraTypeManager
-2. **New Layout**: Add to RTSPDashboardLayout enum
-3. **New Diagnostic**: Extend RTSPCameraDiagnostics
-4. **New UI**: Add view controller and integrate with AppDelegate
+### Adding Features
 
-## Security Considerations
+**New Camera Type:**
+```objective-c
+// Extend RTSPCameraTypeManager
+- (void)addCustomCameraType:(NSString *)type {
+    // Implementation
+}
+```
 
-- Credentials stored in NSUserDefaults (consider Keychain for production)
-- OAuth tokens managed securely by Google APIs
-- RTSP streams support authentication
-- Local network access only (no external routing by default)
-- Regular updates recommended for security patches
-
-## License
-
-Copyright © 2025 Jordan Koch
-
-## Contributing
-
-This is a personal project. For issues or suggestions, please contact the author.
-
-## Version History
-
-### Version 2.0.0 (Current - Oct 2025)
-- **Major Refactoring**: Now a standard macOS application (.app)
-- Added multi-dashboard system (unlimited dashboards)
-- Added Google Home/Nest camera support
-- Added comprehensive diagnostics system
-- Added real-time health monitoring
-- Added visual status indicators
-- Added grid layouts (up to 12 cameras simultaneously)
-- Added camera type management
-- Refactored for better architecture and maintainability
-- Zero compilation warnings, clean build
-
-### Version 1.1.0
-- Added comprehensive documentation
-- Implemented external configuration file support
-- Added error handling and validation
-- Improved logging throughout
-- Thread-safe operations
-
-### Version 1.0.0
-- Initial release
-- Basic RTSP feed rotation
-- Desktop-level window display
-
-## Credits
-
-- **AVFoundation**: Apple's native media framework
-- **Google Smart Device Management API**: For Google Home integration
-- **Author**: Jordan Koch
-
-## Support
-
-For questions or support:
-- Review documentation in `/Documentation`
-- Check logs in Console.app
-- Run camera diagnostics
-- Verify RTSP streams work in other players (VLC, etc.)
-
-## Roadmap
-
-Completed features (formerly on roadmap):
-- ✅ Standard macOS application
-- ✅ Multi-dashboard support
-- ✅ Google Home integration
-- ✅ Comprehensive diagnostics
-- ✅ Health monitoring
-- ✅ Status indicators
-- ✅ Grid layouts
-- ✅ Camera type management
-
-Future enhancements:
-- [ ] Touch Bar support
-- [ ] Picture-in-Picture mode improvements
-- [ ] Advanced motion detection
-- [ ] Cloud storage integration
-- [ ] Mobile app for remote monitoring
-- [ ] Machine learning-based alerts
-- [ ] Multi-user support with roles
-- [ ] Advanced PTZ control
+**New Dashboard Layout:**
+```objective-c
+// Add to RTSPDashboardLayout enum
+typedef NS_ENUM(NSInteger, RTSPDashboardLayout) {
+    // ... existing layouts
+    RTSPDashboardLayout5x4 = 6  // 20 cameras
+};
+```
 
 ---
 
-**Last Updated:** January 22, 2026
+## Version History
+
+### v2.3.0 (January 2026) - Current
+- **CSV Camera Import**: Bulk import with validation
+- **OSD Toggle**: On-screen display control
+- **Dashboard Designer**: Visual dashboard management interface
+- **Dashboard Auto-Cycling**: Automatic rotation through saved dashboards
+
+### v2.2.0 (October 2025)
+- **UniFi Protect Integration**: Automatic camera discovery
+- **Configuration Export/Import**: Cross-platform config management
+- **Enhanced Documentation**: Complete feature guides
+
+### v2.1.0 (September 2025)
+- **15 Major Features**: Bookmarks, Transitions, Motion Detection, API, Alerts
+- **Picture-in-Picture**: Floating monitor window
+- **Thumbnail Grid**: Live preview of all cameras
+- **PTZ Control**: Pan/tilt/zoom support
+- **REST API Server**: Home automation integration
+- **Feed Failover**: Automatic backup switching
+- **Smart Alerts**: Vision framework object detection
+- **Cloud Storage**: iCloud/Dropbox/S3 upload
+- **Event Timeline**: Comprehensive logging
+
+### v2.0.0 (August 2025)
+- **Major Refactoring**: Standard macOS application
+- **Multi-Dashboard System**: Unlimited dashboards
+- **Google Home Support**: Native Nest camera integration
+- **Comprehensive Diagnostics**: Health monitoring system
+- **Visual Status Indicators**: Color-coded camera health
+- **Grid Layouts**: Up to 12 simultaneous cameras
+
+### v1.0.0 (Initial Release)
+- Basic RTSP feed rotation
+- Desktop-level window display
+
+---
+
+## License
+
+MIT License
+
+Copyright © 2026 Jordan Koch
+
+---
+
+## Credits
+
+- **Author**: Jordan Koch
+- **AVFoundation**: Apple's native media framework
+- **Google Smart Device Management API**: For Google Home/Nest integration
+
+---
+
+## Support & Contributing
+
+**GitHub**: https://github.com/kochj23/StreamRotator
+
+**For Issues:**
+- Review documentation in `/Documentation`
+- Check logs in Console.app
+- Run camera diagnostics
+- Verify RTSP streams work in VLC
+
+This is a personal project by Jordan Koch.
+
+---
+
+**Last Updated:** January 27, 2026
+**Version:** 2.3.0 (build 230)
 **Status:** ✅ Production Ready
