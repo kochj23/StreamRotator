@@ -666,9 +666,108 @@
 
     if ([panel runModal] == NSModalResponseOK) {
         NSURL *fileURL = panel.URL;
-        // TODO: Implement CSV parsing and camera import
         NSLog(@"[Menu] Selected file: %@", fileURL.path);
+
+        // Parse CSV file
+        NSError *error = nil;
+        NSString *csvContent = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:&error];
+
+        if (error) {
+            NSLog(@"[Menu] Error reading CSV file: %@", error.localizedDescription);
+            NSAlert *alert = [[NSAlert alloc] init];
+            alert.messageText = @"Import Failed";
+            alert.informativeText = [NSString stringWithFormat:@"Could not read file: %@", error.localizedDescription];
+            alert.alertStyle = NSAlertStyleWarning;
+            [alert runModal];
+            return;
+        }
+
+        // Parse CSV: Expected format is "name,url,type" or just "name,url"
+        NSArray *lines = [csvContent componentsSeparatedByString:@"\n"];
+        NSMutableArray *importedFeeds = [NSMutableArray array];
+        NSInteger lineNumber = 0;
+        NSInteger importedCount = 0;
+
+        for (NSString *line in lines) {
+            lineNumber++;
+            NSString *trimmedLine = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+            // Skip empty lines and comment lines
+            if (trimmedLine.length == 0 || [trimmedLine hasPrefix:@"#"]) {
+                continue;
+            }
+
+            // Skip header line if present
+            if (lineNumber == 1 && ([trimmedLine.lowercaseString containsString:@"name"] ||
+                                    [trimmedLine.lowercaseString containsString:@"url"])) {
+                continue;
+            }
+
+            // Parse CSV line (handle quoted fields)
+            NSArray *fields = [self parseCSVLine:trimmedLine];
+            if (fields.count < 2) {
+                NSLog(@"[Menu] Skipping invalid line %ld: %@", (long)lineNumber, trimmedLine);
+                continue;
+            }
+
+            NSString *name = fields[0];
+            NSString *url = fields[1];
+
+            // Validate URL
+            if (![url hasPrefix:@"rtsp://"] && ![url hasPrefix:@"http://"] && ![url hasPrefix:@"https://"]) {
+                NSLog(@"[Menu] Skipping invalid URL at line %ld: %@", (long)lineNumber, url);
+                continue;
+            }
+
+            // Create bookmark and add to manager
+            RTSPBookmark *bookmark = [[RTSPBookmark alloc] init];
+            bookmark.name = name;
+            bookmark.feedURL = [NSURL URLWithString:url];
+            bookmark.hotkey = 0; // No hotkey assigned
+            bookmark.bookmarkID = [[NSUUID UUID] UUIDString];
+
+            RTSPBookmarkManager *bookmarkManager = [RTSPBookmarkManager sharedManager];
+            [bookmarkManager addBookmark:bookmark];
+
+            [importedFeeds addObject:name];
+            importedCount++;
+            NSLog(@"[Menu] Imported camera: %@ -> %@", name, url);
+        }
+
+        // Show success message
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = @"Import Complete";
+        alert.informativeText = [NSString stringWithFormat:@"Successfully imported %ld camera(s) from CSV file.", (long)importedCount];
+        alert.alertStyle = NSAlertStyleInformational;
+        [alert runModal];
+
+        NSLog(@"[Menu] ✅ CSV import complete: %ld cameras imported", (long)importedCount);
     }
+}
+
+// Helper: Parse CSV line handling quoted fields
+- (NSArray<NSString *> *)parseCSVLine:(NSString *)line {
+    NSMutableArray *fields = [NSMutableArray array];
+    NSMutableString *currentField = [NSMutableString string];
+    BOOL insideQuotes = NO;
+
+    for (NSInteger i = 0; i < line.length; i++) {
+        unichar c = [line characterAtIndex:i];
+
+        if (c == '"') {
+            insideQuotes = !insideQuotes;
+        } else if (c == ',' && !insideQuotes) {
+            [fields addObject:[currentField stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+            [currentField setString:@""];
+        } else {
+            [currentField appendFormat:@"%C", c];
+        }
+    }
+
+    // Add last field
+    [fields addObject:[currentField stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+
+    return [fields copy];
 }
 
 // Settings menu handlers
@@ -787,8 +886,31 @@
 }
 
 - (void)handleToggleOSD:(NSNotification *)notification {
-    // TODO: Implement OSD toggle
-    NSLog(@"[Menu] Toggle OSD requested (not yet implemented)");
+    NSLog(@"[Menu] Toggle OSD requested");
+
+    // Toggle OSD preference
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL currentState = [defaults boolForKey:@"RTSPShowOSD"];
+    BOOL newState = !currentState;
+    [defaults setBool:newState forKey:@"RTSPShowOSD"];
+    [defaults synchronize];
+
+    // Update wallpaper controller if it supports OSD
+    if ([self.wallpaperController respondsToSelector:@selector(setShowOSD:)]) {
+        [self.wallpaperController performSelector:@selector(setShowOSD:) withObject:@(newState)];
+    }
+
+    NSLog(@"[Menu] OSD %@", newState ? @"enabled" : @"disabled");
+
+    // Show notification to user
+    NSString *title = newState ? @"OSD Enabled" : @"OSD Disabled";
+    NSString *message = newState ? @"Camera name and status will be displayed" : @"On-screen display hidden";
+
+    NSUserNotification *userNotification = [[NSUserNotification alloc] init];
+    userNotification.title = title;
+    userNotification.informativeText = message;
+    userNotification.soundName = nil;
+    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
 }
 
 // Google Home handlers
@@ -1591,12 +1713,85 @@
 // Dashboard handlers
 - (void)handleOpenDashboardDesigner:(NSNotification *)notification {
     NSLog(@"[Menu] Open dashboard designer");
-    NSAlert *alert = [[NSAlert alloc] init];
-    alert.messageText = @"Dashboard Designer";
-    alert.informativeText = @"Visual dashboard designer - Coming soon!";
-    alert.alertStyle = NSAlertStyleInformational;
-    [alert addButtonWithTitle:@"OK"];
-    [alert runModal];
+
+    // Create dashboard designer window
+    NSWindow *designerWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(100, 100, 800, 600)
+                                                           styleMask:(NSWindowStyleMaskTitled |
+                                                                     NSWindowStyleMaskClosable |
+                                                                     NSWindowStyleMaskResizable)
+                                                             backing:NSBackingStoreBuffered
+                                                               defer:NO];
+    designerWindow.title = @"Dashboard Designer";
+    designerWindow.minSize = NSMakeSize(600, 400);
+
+    // Create content view with layout controls
+    NSView *contentView = [[NSView alloc] initWithFrame:designerWindow.contentView.bounds];
+    contentView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+
+    // Instructions
+    NSTextField *instructions = [[NSTextField alloc] initWithFrame:NSMakeRect(20, 540, 760, 40)];
+    instructions.stringValue = @"Dashboard Designer\nUse the menu to create dashboards, assign cameras, and configure layouts.";
+    instructions.editable = NO;
+    instructions.bordered = NO;
+    instructions.backgroundColor = [NSColor clearColor];
+    instructions.font = [NSFont systemFontOfSize:14];
+    instructions.alignment = NSTextAlignmentCenter;
+    [contentView addSubview:instructions];
+
+    // Get existing dashboards
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSArray *dashboards = [defaults arrayForKey:@"RTSPDashboards"] ?: @[];
+
+    // Dashboard list
+    NSTextField *listLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(20, 500, 760, 20)];
+    listLabel.stringValue = @"Existing Dashboards:";
+    listLabel.editable = NO;
+    listLabel.bordered = NO;
+    listLabel.backgroundColor = [NSColor clearColor];
+    listLabel.font = [NSFont boldSystemFontOfSize:13];
+    [contentView addSubview:listLabel];
+
+    // Scrollable list of dashboards
+    NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:NSMakeRect(20, 100, 760, 380)];
+    scrollView.hasVerticalScroller = YES;
+    scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+
+    NSTextView *dashboardList = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, 740, 380)];
+    dashboardList.editable = NO;
+
+    if (dashboards.count == 0) {
+        dashboardList.string = @"No dashboards created yet.\n\nUse 'Dashboard > Create New Dashboard' to get started.";
+    } else {
+        NSMutableString *listText = [NSMutableString string];
+        for (NSDictionary *dashboard in dashboards) {
+            NSString *name = dashboard[@"name"] ?: @"Unnamed";
+            NSArray *cameras = dashboard[@"cameras"] ?: @[];
+            NSString *layout = dashboard[@"layout"] ?: @"1x1";
+            [listText appendFormat:@"• %@\n  Layout: %@, Cameras: %ld\n\n", name, layout, (long)cameras.count];
+        }
+        dashboardList.string = listText;
+    }
+
+    scrollView.documentView = dashboardList;
+    [contentView addSubview:scrollView];
+
+    // Action buttons
+    NSButton *createButton = [[NSButton alloc] initWithFrame:NSMakeRect(20, 50, 150, 32)];
+    [createButton setTitle:@"Create Dashboard"];
+    [createButton setTarget:self];
+    [createButton setAction:@selector(handleCreateNewDashboard:)];
+    [contentView addSubview:createButton];
+
+    NSButton *closeButton = [[NSButton alloc] initWithFrame:NSMakeRect(630, 20, 150, 32)];
+    [closeButton setTitle:@"Close"];
+    [closeButton setTarget:designerWindow];
+    [closeButton setAction:@selector(close)];
+    [contentView addSubview:closeButton];
+
+    designerWindow.contentView = contentView;
+    [designerWindow makeKeyAndOrderFront:nil];
+
+    NSLog(@"[Menu] Dashboard designer opened");
 }
 
 - (void)handleCreateNewDashboard:(NSNotification *)notification {
@@ -1713,13 +1908,108 @@
 
 - (void)handleToggleDashboardAutoCycle:(NSNotification *)notification {
     NSLog(@"[Menu] Toggle dashboard auto-cycle");
-    NSAlert *alert = [[NSAlert alloc] init];
-    alert.messageText = @"Auto-Cycle Dashboards";
-    alert.informativeText = @"Dashboard auto-cycling - Feature coming soon!";
-    alert.alertStyle = NSAlertStyleInformational;
-    [alert addButtonWithTitle:@"OK"];
-    [alert runModal];
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL currentState = [defaults boolForKey:@"RTSPDashboardAutoCycleEnabled"];
+    BOOL newState = !currentState;
+    [defaults setBool:newState forKey:@"RTSPDashboardAutoCycleEnabled"];
+    [defaults synchronize];
+
+    if (newState) {
+        // Start auto-cycling
+        NSTimeInterval interval = [defaults doubleForKey:@"RTSPDashboardCycleInterval"];
+        if (interval <= 0) {
+            interval = 30.0; // Default 30 seconds
+            [defaults setDouble:interval forKey:@"RTSPDashboardCycleInterval"];
+            [defaults synchronize];
+        }
+
+        [self startDashboardAutoCycleWithInterval:interval];
+        NSLog(@"[Menu] Dashboard auto-cycle enabled (interval: %.0f seconds)", interval);
+
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = @"Auto-Cycle Enabled";
+        alert.informativeText = [NSString stringWithFormat:@"Dashboards will cycle every %.0f seconds", interval];
+        alert.alertStyle = NSAlertStyleInformational;
+        [alert addButtonWithTitle:@"OK"];
+        [alert runModal];
+    } else {
+        // Stop auto-cycling
+        [self stopDashboardAutoCycle];
+        NSLog(@"[Menu] Dashboard auto-cycle disabled");
+
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = @"Auto-Cycle Disabled";
+        alert.informativeText = @"Dashboard auto-cycling stopped";
+        alert.alertStyle = NSAlertStyleInformational;
+        [alert addButtonWithTitle:@"OK"];
+        [alert runModal];
+    }
 }
+
+- (void)startDashboardAutoCycleWithInterval:(NSTimeInterval)interval {
+    // Stop existing timer
+    [self stopDashboardAutoCycle];
+
+    // Create new timer
+    @synchronized(self) {
+        static NSTimer *autoCycleTimer = nil;
+        autoCycleTimer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                                          target:self
+                                                        selector:@selector(cycleToNextDashboard)
+                                                        userInfo:nil
+                                                         repeats:YES];
+        NSLog(@"[Menu] Dashboard auto-cycle timer started");
+    }
+}
+
+- (void)stopDashboardAutoCycle {
+    @synchronized(self) {
+        static NSTimer *autoCycleTimer = nil;
+        if (autoCycleTimer) {
+            [autoCycleTimer invalidate];
+            autoCycleTimer = nil;
+            NSLog(@"[Menu] Dashboard auto-cycle timer stopped");
+        }
+    }
+}
+
+- (void)cycleToNextDashboard {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSArray *dashboards = [defaults arrayForKey:@"RTSPDashboards"] ?: @[];
+
+    if (dashboards.count <= 1) {
+        NSLog(@"[Menu] Not enough dashboards to cycle (need 2+)");
+        return;
+    }
+
+    NSInteger currentIndex = [defaults integerForKey:@"RTSPCurrentDashboardIndex"];
+    NSInteger nextIndex = (currentIndex + 1) % dashboards.count;
+    [defaults setInteger:nextIndex forKey:@"RTSPCurrentDashboardIndex"];
+    [defaults synchronize];
+
+    NSDictionary *nextDashboard = dashboards[nextIndex];
+    NSLog(@"[Menu] Cycling to dashboard: %@", nextDashboard[@"name"] ?: @"Unnamed");
+
+    // Switch to dashboard cameras
+    NSArray *cameras = nextDashboard[@"cameras"] ?: @[];
+    if (cameras.count > 0) {
+        // Switch to first camera in dashboard
+        NSString *firstCameraURL = cameras[0];
+        [self switchToCameraWithURL:firstCameraURL];
+    }
+}
+
+- (void)switchToCameraWithURL:(NSString *)urlString {
+    // Find camera index by URL and switch to it
+    NSArray *feeds = self.wallpaperController.feeds;
+    NSInteger index = [feeds indexOfObject:urlString];
+    if (index != NSNotFound && self.wallpaperController) {
+        self.wallpaperController.currentIndex = index;
+        [self.wallpaperController playCurrentFeed];
+    }
+}
+
 
 - (void)handleSetDashboardCycleInterval:(NSNotification *)notification {
     NSLog(@"[Menu] Set dashboard cycle interval");
