@@ -641,3 +641,17 @@ This is a personal project by Jordan Koch.
 **Last Updated:** January 27, 2026
 **Version:** 2.3.0 (build 230)
 **Status:** ✅ Production Ready
+
+---
+
+## More Apps by Jordan Koch
+
+| App | Description |
+|-----|-------------|
+| [rtsp-rotator](https://github.com/kochj23/rtsp-rotator) | RTSP camera stream rotation and monitoring |
+| [HomekitControl](https://github.com/kochj23/HomekitControl) | HomeKit device management and automation |
+| [URL-Analysis](https://github.com/kochj23/URL-Analysis) | Network traffic analysis and URL monitoring |
+| [NMAPScanner](https://github.com/kochj23/NMAPScanner) | Network security scanner with AI threat detection |
+| [TopGUI](https://github.com/kochj23/TopGUI) | macOS system monitor with real-time metrics |
+
+> **[View all projects](https://github.com/kochj23?tab=repositories)**
