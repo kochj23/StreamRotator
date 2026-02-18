@@ -1,5 +1,7 @@
 # Stream Rotator v2.3.0
 
+![Build](https://github.com/kochj23/StreamRotator/actions/workflows/build.yml/badge.svg)
+
 **A macOS application for automatic RTSP video feed rotation with multi-dashboard support**
 
 Perfect for security monitoring, video wall applications, or displaying multiple camera feeds simultaneously with enterprise-grade features.
