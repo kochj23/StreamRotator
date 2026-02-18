@@ -4,6 +4,8 @@
 
 Perfect for security monitoring, video wall applications, or displaying multiple camera feeds simultaneously with enterprise-grade features.
 
+![Stream Rotator](Screenshots/main-window.png)
+
 ---
 
 ## What is Stream Rotator?
